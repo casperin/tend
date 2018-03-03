@@ -11,11 +11,6 @@ import (
 	"github.com/fsnotify/fsnotify"
 )
 
-type cmd struct {
-	name string
-	args []string
-}
-
 func main() {
 	dir := *flag.String("w", "", "Directory you want to watch")
 	verbose := flag.Bool("v", false, "Verbose output")
