@@ -19,7 +19,7 @@ func main() {
 	flag.Parse()
 	count := *countP
 	cmdsStr := flag.Args()
-	vlog := makeLogger(*verbose)
+	vlog := verboseLogger(*verbose)
 
 	if dir == "" && len(cmdsStr) > 1 {
 		dir = cmdsStr[0]
@@ -81,7 +81,7 @@ func main() {
 	<-done
 }
 
-func makeLogger(v bool) func(string, ...interface{}) {
+func verboseLogger(v bool) func(string, ...interface{}) {
 	return func(format string, a ...interface{}) {
 		if v {
 			fmt.Printf(format+"\n", a...)
@@ -91,10 +91,9 @@ func makeLogger(v bool) func(string, ...interface{}) {
 
 func prepareCommands(cmdsStr []string) []*exec.Cmd {
 	cmds := make([]*exec.Cmd, len(cmdsStr))
-	for i, c := range cmdsStr {
-		cmdsStrs := strings.Split(c, " ")
-		cmd := exec.Command(cmdsStrs[0], cmdsStrs[1:]...)
-		cmds[i] = cmd
+	for i, cs := range cmdsStr {
+		c := strings.Split(cs, " ")
+		cmds[i] = exec.Command(c[0], c[1:]...)
 	}
 	return cmds
 }
